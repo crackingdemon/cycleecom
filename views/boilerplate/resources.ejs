@@ -1,0 +1,136 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="/scripts/topbar.js"></script>
+<script>
+    // top loader config
+    topbar.config({
+        barColors: {
+            "0": "#000",
+            "1.0": "#000011"
+        },
+        shadowBlur: 5
+    });
+    console.log('loader in progress');
+    // function for displaying top loader
+    const showTopLoader = () => {
+        console.log('displaying top loader');
+        topbar.show();
+    }
+    const hideTopLoader = () => {
+        console.log('hiding top loader');
+        topbar.hide();
+    }
+</script>
+
+<script>
+    const showSuccess = (message) => {
+        Toastify({
+            text: `${message}`,
+            duration: 3000,
+            destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#5cb85c",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast();
+        return;
+    }
+    const showError = (message) => {
+        console.log('showing error', message);
+        Toastify({
+            text: `${message}`,
+            duration: 3000,
+            destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#ed4337",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast();
+    }
+</script>
+
+<script>
+    // status redirect data message
+    const get = async ({ url }) => {
+        try {
+            let response = await fetch(url);
+            let responseData = await response.json();
+            if (responseData.message) {
+                responseData.status == true ? showSuccess(responseData.message) : showError(responseData.message);
+            }
+            return responseData;
+        } catch (e) {
+            console.log('error in getting request ', e);
+            showError('Some Technical Error');
+            return {};
+        }
+    }
+
+    const inputValueColllector = (ids) => {
+        try {
+            let finalObject = {};
+            ids.map((id) => {
+                let value = document.getElementById(id).value;
+                finalObject[id] = value;
+            });
+            console.log('final object is ', finalObject);
+            return finalObject;
+        } catch (e) {
+            console.log('error in getting ids ', e);
+            return {};
+        }
+    }
+
+    const post = async ({ url, data }) => {
+        try {
+            let response = await fetch(url, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            let responseData = await response.json();
+            console.log('response data is ', responseData);
+            if (responseData.message) {
+                responseData.status == true ? showSuccess(responseData.message) : showError(responseData.message);
+            }
+            return responseData;
+        } catch (e) {
+            console.log('error in getting request ', e);
+            showError('Some Technical Error');
+            return {};
+        }
+    }
+
+    const formHandler = async ({ url, ids, callback }) => {
+        try {
+            console.log('form handler called', url, ids, callback);
+            showTopLoader();
+            event.preventDefault();
+            let data = await inputValueColllector(ids);
+            let finalData = await post({ data: data, url: url });
+            console.log('type of ', typeof (callback));
+            hideTopLoader();
+            callback(finalData);
+            return;
+        } catch (e) {
+            hideTopLoader();
+            console.log('error in handling form ', e);
+            return;
+        }
+    }
+
+</script>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
