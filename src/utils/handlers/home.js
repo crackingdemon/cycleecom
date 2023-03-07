@@ -23,27 +23,38 @@ class Home {
 
     console.log("final data is ", finalData);
 
-    const productsData = await prisma.Product.findMany();
-
-    // compare the data
-    let newProducts = [];
+    // const productsData = await prisma.Product.findMany();
+await prisma.Product.deleteMany({});
+let newProducts = [];
     finalData.map((item) => {
-      let found = productsData.find((product) => product.name === item.name);
-      if (!found) {
+      
+  
         newProducts.push(item);
-      }
+     
     });
-    console.log("new products are ", newProducts);
+let _newProducts = await prisma.Product.createMany({
+  data: newProducts,
+});
+    // compare the data
+    // let newProducts = [];
+    // finalData.map((item) => {
+    //   let found = productsData.find((product) => product.name === item.name);
+    //   if (!found) {
+    //     newProducts.push(item);
+    //   }
+    // });
+    // console.log("new products are ", newProducts);
 
-    if (newProducts.length != 0) {
-      let _newProducts = await prisma.Product.createMany({
-        data: newProducts,
-      });
-      console.log("new products are ", _newProducts);
-      return _newProducts;
-    } else {
-      return [];
-    }
+    // if (newProducts.length != 0) {
+    //   let _newProducts = await prisma.Product.createMany({
+    //     data: newProducts,
+    //   });
+    //   console.log("new products are ", _newProducts);
+    //   return _newProducts;
+    // } else {
+    //   return [];
+    // }
+    return _newProducts;
   }
 
   static async homeDataHandler() {
