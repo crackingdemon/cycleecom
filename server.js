@@ -14,6 +14,7 @@ const { validateHeaderValue } = require("http");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+
 const prisma = require("./src/db/index");
 // const cookieParser = require('cookie-parser')
 
