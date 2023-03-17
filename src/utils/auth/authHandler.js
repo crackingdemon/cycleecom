@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import prisma from '../../db/index.js';
 dotenv.config();
 
 class AuthHandler {
+
+
     static async verifyLogin(email, password) {
         const _user = await prisma.user.findUnique({
             where: {
@@ -37,19 +39,20 @@ class AuthHandler {
     }
 
     static async register(name, email, password) {
+        console.log(name , email, password);
+
+        
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
             const _user = await prisma.user.create({
-                data: {
-                    name: name,
-                    email: email,
-                    password: hashedPassword,
-                   
-                }
-            });
-            if (!_user) {
-                return { status: false, message: 'User registration failed' };
-            }
+                    data: {
+                        name: name,
+                        email: email,
+                        password: hashedPassword
+                    }
+                });
+            
+          if(!_user)  return { status: false, message: 'User registration failed' };
             const token = jwt.sign({ id: _user.id, name: _user.name, email: _user.email }, process.env.JWT_SECRET, { expiresIn: '4h' });
             return { status: true, token };
         } catch (error) {

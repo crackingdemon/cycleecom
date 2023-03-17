@@ -8,10 +8,11 @@ const bucket = api.bucket({
   read_key: process.env.COSMIC_READ_KEY,
 });
 
+
 class CosmicFetch {
   static async fetchProducts() {
     try {
-      const data = await bucket.getObjects({
+      const data = await bucket.objects.find({
         type: "products",
         props: "slug,title,content,metadata",
       });
@@ -24,7 +25,7 @@ class CosmicFetch {
 
   static async fetchCartProducts(productIds) {
     try {
-      const data = await bucket.getObjects({
+      const data = await bucket.objects.find({
         type: "products",
         props: "slug,title,content,metadata",
         ids: productIds
@@ -36,5 +37,6 @@ class CosmicFetch {
     }
   }
 }
+
 
 export default CosmicFetch;

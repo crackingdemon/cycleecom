@@ -1,14 +1,16 @@
-<%- include('header'); -%>
+<%- include('header1'); -%>
 
 <div class="row pt-3 mx-n2">
     <!-- Product-->
+    <% products.forEach(function(product, index) { if (index<9){%>
     <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
+
       <div class="card product-card">
-        <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="ci-heart"></i></button><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="img/shop/catalog/01.jpg" alt="Product"></a>
+        <a class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" href="/addtocart/<%= product.id %>" title="Add to cart" ><i class="ci-cart" ></i></a><a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img src="<%= product.image[0] %>" alt="Product"></a>
         <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Sneakers &amp; Keds</a>
-          <h3 class="product-title fs-sm"><a href="shop-single-v1.html">Women Colorblock Sneakers</a></h3>
+          <h3 class="product-title fs-sm"><a href="shop-single-v1.html"><%= product.name %>s</a></h3>
           <div class="d-flex justify-content-between">
-            <div class="product-price"><span class="text-accent">$154.<small>00</small></span></div>
+            <div class="product-price"><span class="text-accent"><%= product.price %><small>00</small></span></div>
             <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star"></i>
             </div>
           </div>
@@ -35,9 +37,11 @@
           <button class="btn btn-primary btn-sm d-block w-100 mb-2" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</button>
           <div class="text-center"><a class="nav-link-style fs-ms" href="#quick-view" data-bs-toggle="modal"><i class="ci-eye align-middle me-1"></i>Quick view</a></div>
         </div>
+        
       </div>
       <hr class="d-sm-none">
     </div>
+    <%} }) %>
     <!-- Product-->
     <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
       <div class="card product-card"><span class="badge bg-danger badge-shadow">Sale</span>

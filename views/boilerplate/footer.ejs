@@ -173,6 +173,24 @@
     <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
     <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
     <script src="vendor/drift-zoom/dist/Drift.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script>
+      $(".btn-wishlist").click(function (e) { 
+          e.preventDefault();
+          let url = $(this).attr("href");
+
+          $.get(url, function(data, status){
+            if (data.url) {
+              window.location.href = data.url;  
+            }
+
+            if(data.success){
+              let prev_item =  parseInt($(".cart-item-left").text());
+              $(".cart-item-left").text(prev_item+1);
+            }
+          });
+      });
+  </script>
     <!-- Main theme script-->
     <script src="js/theme.min.js"></script>
   </body>

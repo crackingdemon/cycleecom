@@ -20,8 +20,10 @@ app.set("view engine", "ejs");
 
 const port = process.env.PORT || 8000;
 
+
 app.get("/", async (req, res) => {
   let products = await Home.homeDataHandler();
+  // console.log(products);
   res.render("home", { products });
 });
 
@@ -45,33 +47,77 @@ app.get("/register", (req, res) => {
   res.render("boilerplate/register");
 });
 
+// app.post("/register", async (req, res) => {
+//   try{
+//     const newUser = new User({
+//       name: req.body.FirstName,
+//       email: req.body.email,
+//       password: req.body.password
+     
+//     });
+  
+//     const salt = await bcrypt.genSalt(10);
+//     newUser.password = await bcrypt.hash(newUser.password, salt);
+//       const savedUser = await newUser.save();
+  
+//       res.status(201).send(savedUser);
+  
+//     }catch(err){
+//       res.status.send(err);
+//     }
+
+// });
+
+
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   const response = await AuthHandler.register(name, email, password);
-  if (response.status) {
+ 
+  if (response) {
     res.cookie("token", response.token, { maxAge: 1000 * 60 * 60 * 4 });
   }
   return res.json({
     ...response,
-    message: response.status
+    message: response
       ? "User registered successfully"
       : "User registration failed",
-    redirect: response.status ? "/" : "/register",
+    redirect: response ? "/" : "/register",
   });
 });
 
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const response = await AuthHandler.verifyLogin(email, password);
-  if (response.status) {
-    res.cookie("token", response.token, { maxAge: 1000 * 60 * 60 * 4 });
+
+app.post('/login', async(req, res)=>{
+  try{
+    const { email, password } = req.body;
+    const response = await AuthHandler.verifyLogin(email, password);
+    if (response.status) {
+      res.cookie("token", response.token, { maxAge: 1000 * 60 * 60 * 4 });
+    }
+    return res.json({
+      ...response,
+      message: response.status ? "Login successfully" : "Login failed",
+      redirect: response.status ? "/" : "/login",
+    });
+ 
+  }catch(err){
+    res.status(500).send(err.message);
   }
-  return res.json({
-    ...response,
-    message: response.status ? "Login successfully" : "Login failed",
-    redirect: response.status ? "/" : "/login",
-  });
-});
+
+})
+
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+//   const response = await AuthHandler.verifyLogin(email, password);
+//   if (response.status) {
+//     res.cookie("token", response.token, { maxAge: 1000 * 60 * 60 * 4 });
+//   }
+//   return res.json({
+//     ...response,
+//     message: response.status ? "Login successfully" : "Login failed",
+//     redirect: response.status ? "/" : "/login",
+//   });
+// });
+
 
 app.post("/logout", async (req, res) => {
   res.clearCookie("token");
@@ -81,6 +127,7 @@ app.post("/logout", async (req, res) => {
     redirect: "/",
   });
 });
+
 
 app.post("/fetchcart", AuthHandler.verifyToken, async (req, res) => {
   const user = req.user;

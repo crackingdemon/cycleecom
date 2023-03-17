@@ -19,6 +19,7 @@ class Home {
           description: item.content || "",
         };
         finalData.push(tempObj);
+        
       });
 
     console.log("final data is ", finalData);

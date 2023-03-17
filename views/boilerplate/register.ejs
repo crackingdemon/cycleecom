@@ -1,108 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('header1'); -%>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auth</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body>
-
-    <script>
-        const callbackHandler = (data) => {
-            if (data.status == true) {
-                window.location.replace(data.redirect);
-            }
-        }
-    </script>
-
-    <%- include('resources'); -%>
-
-        <!-- component -->
-        <div class="min-h-screen bg-purple-400 flex justify-center items-center">
-            <div
-                class="absolute w-60 h-60 rounded-xl bg-purple-300 -top-5 -left-16 z-0 transform rotate-45 hidden md:block">
-            </div>
-            <div
-                class="absolute w-48 h-48 rounded-xl bg-purple-300 -bottom-6 -right-10 transform rotate-12 hidden md:block">
-            </div>
-            <div class="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
-                <div>
-                    <h1 class="text-3xl font-bold text-center mb-4 cursor-pointer">Create An Account</h1>
-                    <p class="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide cursor-pointer">
-                        Create an
-                        account to Access all the pages!</p>
-                </div>
-                <form class="mt-6"
-                    onsubmit="formHandler({url : '/register', ids : ['name','email', 'password'], callback : callbackHandler})">
-
-                    <div>
-                        <label class="block text-gray-700">Name</label>
-                        <input type="text" name="name" id="name" placeholder="Name"
-                            class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                            autofocus autocomplete required />
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700">Your Email</label>
-                        <input type="text" name="email" id="email" placeholder="Email"
-                            class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                            autofocus autocomplete required />
-                    </div>
-
-                    <div class="mt-4">
-                        <label class="block text-gray-700">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Enter Password"
-                            class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                            required />
-                    </div>
-
-                    <button type="submit"
-                        class="w-full block bg-purple-500 hover:bg-purple-400 focus:bg-purple-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
-                        Login
-                    </button>
-                </form>
-                <div class="text-center mt-6">
-                    <!-- <button class="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl">Create Account</button> -->
-                    <a href="/login" class="mt-4 text-sm">Have A Account? <span class="underline cursor-pointer">
-                            Login</span>
-                    </a>
-                </div>
-            </div>
-            <div class="w-40 h-40 absolute bg-purple-300 rounded-full top-0 right-12 hidden md:block"></div>
-            <div
-                class="w-20 h-40 absolute bg-purple-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block">
-            </div>
+<div class="col-md-6 pt-4 mt-3 mt-md-0 container">
+    <h2 class="h4 mb-3">No account? Sign up</h2>
+    <p class="fs-sm text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
+    <form class="needs-validation" novalidate method="post" action="/register">
+      <div class="row gx-4 gy-3">
+        <div class="col-sm-6">
+          <label class="form-label" for="reg-fn">First Name</label>
+          <input name="name" class="form-control" type="text" required id="reg-fn">
+          <div class="invalid-feedback">Please enter your first name!</div>
         </div>
-</body>
+     
+        <div class="col-sm-6">
+          <label class="form-label" for="reg-email">E-mail Address</label>
+          <input name="email" class="form-control" type="email" required id="reg-email">
+          <div class="invalid-feedback">Please enter valid email address!</div>
+        </div>
+      
+        <div class="col-sm-6">
+          <label class="form-label" for="reg-password">Password</label>
+          <input name="password" class="form-control" type="password" required id="reg-password">
+          <div class="invalid-feedback">Please enter password!</div>
+        </div>
+        
+        <div class="col-12 text-end">
+          <button  class="btn btn-primary" type="submit"><i class="ci-user me-2 ms-n1"></i>Sign Up</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
 
-</html>
 
-
-
-<!-- <form class="mt-6"
-                        onsubmit="formHandler({url : '/login', ids : ['email', 'password'], callback : callbackHandler})">
-
-                        <div>
-                            <label class="block text-gray-700">Your Email</label>
-                            <input type="text" name="email" id="email" placeholder="Email"
-                                class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                                autofocus autocomplete required />
-                        </div>
-
-                        <div class="mt-4">
-                            <label class="block text-gray-700">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Enter Password"
-                                class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                                required />
-                        </div>
-
-                        <button type="submit"
-                            class="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
-                            Log In
-                        </button>
-                    </form> -->
+<%- include('resources'); -%>
+<%- include('footer'); -%>
